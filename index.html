@@ -447,11 +447,14 @@
            FUNNEL BARS
            ============================================ */
         .funnel-bars { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
-        .funnel-row { display: flex; align-items: center; gap: 14px; }
+        .funnel-item { display: flex; flex-direction: column; gap: 0; }
+        .funnel-row { display: flex; align-items: center; gap: 14px; cursor: pointer; transition: transform 0.3s ease; }
+        .funnel-row:hover { transform: translateX(4px); }
         .funnel-label {
             width: 170px; text-align: right;
-            font-size: 12px; font-weight: 600; color: var(--text-secondary);
+            font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: color 0.3s ease;
         }
+        .funnel-row:hover .funnel-label { color: white; }
         .funnel-bar-wrapper {
             flex: 1; height: 42px;
             background: rgba(26,26,26,0.8);
@@ -460,18 +463,36 @@
         }
         .funnel-bar {
             height: 100%; border-radius: 8px;
-            display: flex; align-items: center;
-            padding-right: 14px; justify-content: flex-end;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 14px;
             font-size: 13px; font-weight: 700; color: white;
             width: 0;
             transition: width 1.5s var(--ease-out);
         }
+        .click-hint { font-size: 9px; font-weight: 600; opacity: 0.85; pointer-events: none; transition: opacity 0.3s; letter-spacing: 0.5px; text-transform: uppercase; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 4px; white-space: nowrap; }
+        .funnel-row:hover .click-hint { opacity: 1; background: rgba(0,0,0,0.4); }
         .funnel-bar.animated { width: var(--target-width); }
         .funnel-bar.bar-red { background: linear-gradient(90deg, var(--v4-red-dark), var(--v4-red)); }
         .funnel-bar.bar-purple { background: linear-gradient(90deg, #7C3AED, var(--accent-purple)); }
         .funnel-bar.bar-blue { background: linear-gradient(90deg, #2563EB, var(--accent-blue)); }
         .funnel-bar.bar-green { background: linear-gradient(90deg, #16A34A, var(--accent-green)); }
         .funnel-bar.bar-cyan { background: linear-gradient(90deg, #0891B2, var(--accent-cyan)); }
+        
+        .funnel-details {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.5s var(--ease-out), margin-top 0.5s var(--ease-out);
+            margin-left: 184px; /* Align with bar (170px width + 14px gap) */
+        }
+        .funnel-item.active .funnel-details { max-height: 400px; margin-top: 8px; }
+        .fd-content {
+            background: rgba(26,26,26,0.6);
+            border: 1px solid var(--border-subtle);
+            border-left: 2px solid var(--v4-red);
+            padding: 14px 18px; font-size: 11px;
+            color: var(--text-secondary); line-height: 1.5;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
 
         /* ============================================
            FLYWHEEL
@@ -1133,11 +1154,117 @@
                     Um oceano de <strong>69.000+ oportunidades</strong> distribuídas em 5 fontes proprietárias da V4, prontas para serem roteadas.
                 </p>
                 <div class="funnel-bars anim anim-d3">
-                    <div class="funnel-row"><div class="funnel-label">Base Inativa (13 anos)</div><div class="funnel-bar-wrapper"><div class="funnel-bar bar-red" style="--target-width:100%">54.075</div></div></div>
-                    <div class="funnel-row"><div class="funnel-label">Reuniões Loss</div><div class="funnel-bar-wrapper"><div class="funnel-bar bar-purple" style="--target-width:43%">23.400</div></div></div>
-                    <div class="funnel-row"><div class="funnel-label">Novos até 2026</div><div class="funnel-bar-wrapper"><div class="funnel-bar bar-blue" style="--target-width:17%">9.356</div></div></div>
-                    <div class="funnel-row"><div class="funnel-label">Base Ativa</div><div class="funnel-bar-wrapper"><div class="funnel-bar bar-green" style="--target-width:15%">8.211</div></div></div>
-                    <div class="funnel-row"><div class="funnel-label">R.E.D.</div><div class="funnel-bar-wrapper"><div class="funnel-bar bar-cyan" style="--target-width:12%">∞</div></div></div>
+                    <div class="funnel-item">
+                        <div class="funnel-row" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="funnel-label">Base Inativa (13 anos)</div>
+                            <div class="funnel-bar-wrapper">
+                                <div class="funnel-bar bar-red" style="--target-width:100%">
+                                    <span class="click-hint">Ver Motions 👇</span>
+                                    <span>54.075</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-details">
+                            <div class="fd-content" style="border-left-color: var(--v4-red)">
+                                <strong style="color:white">Oferta:</strong> Serviços de risco zero baseados em Success Fee (ex: Restituição Tributária).<br><br>
+                                <strong style="color:white">💡 Canais de Ativação / Sinais:</strong>
+                                <ul style="margin-top:6px; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+                                    <li><strong>Análise do Passado:</strong> Mineração de check-ins antigos e transcrições de reuniões de vendas passadas para pegar sinais e dores latentes (recuperação certeira).</li>
+                                    <li><strong>Auto e-mail + Isca:</strong> Envio de reports valiosos. Interação do inativo sobe o Lead Score e aciona repasse no CRM.</li>
+                                    <li><strong>Trials e Créditos:</strong> Injeção de créditos na plataforma (ex: VAMOS.IA). O aceite do benefício quebra a inércia do lead.</li>
+                                    <li><strong>Collab Gratuita:</strong> Parceiro faz consultoria prévia grátis para reconectar o cliente ao ecossistema.</li>
+                                    <li><strong>Gifting:</strong> Envio de presentes físicos corporativos para hand-raise em contas High Touch.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="funnel-item">
+                        <div class="funnel-row" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="funnel-label">Reuniões Loss</div>
+                            <div class="funnel-bar-wrapper">
+                                <div class="funnel-bar bar-purple" style="--target-width:43%">
+                                    <span class="click-hint">Ver Motions 👇</span>
+                                    <span>23.400</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-details">
+                            <div class="fd-content" style="border-left-color: var(--accent-purple)">
+                                <strong style="color:white">Oferta:</strong> Parceiros de menor ticket ou que tiram a objeção que causou o loss (RH, Integração de time).<br><br>
+                                <strong style="color:white">💡 Canais de Ativação / Sinais:</strong>
+                                <ul style="margin-top:6px; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+                                    <li><strong>Captura em Tempo Real (Matriz):</strong> Transcrições das reuniões que acabaram de dar loss disparam sinais para a Matriz atuar ofertando a dor mapeada.</li>
+                                    <li><strong>Nutrição de Marketing:</strong> Abordagem periódica automatizada para dores laterais mapeadas pelo SDR no momento do loss original (reaproveitamento do CAC).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="funnel-item">
+                        <div class="funnel-row" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="funnel-label">Novos até 2026</div>
+                            <div class="funnel-bar-wrapper">
+                                <div class="funnel-bar bar-blue" style="--target-width:17%">
+                                    <span class="click-hint">Ver Motions 👇</span>
+                                    <span>9.356</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-details">
+                            <div class="fd-content" style="border-left-color: var(--accent-blue)">
+                                <strong style="color:white">📡 Inteligência de Sinais:</strong> Cultura de marketplace no D0.<br><br>
+                                <strong style="color:white">💡 Canais de Ativação:</strong>
+                                <ul style="margin-top:6px; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+                                    <li><strong>Rede de Parceiros Essenciais (Matriz):</strong> Após um tempo determinado da entrada, o cliente recebe um e-mail automatizado com a lista de parceiros homologados que ele pode plugar a qualquer momento.</li>
+                                    <li><strong>Integração no Onboarding:</strong> Diagnóstico inicial focado em coletar sinais logados imediatamente no playbook de entrada de novos clientes.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="funnel-item">
+                        <div class="funnel-row" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="funnel-label">Base Ativa</div>
+                            <div class="funnel-bar-wrapper">
+                                <div class="funnel-bar bar-green" style="--target-width:15%">
+                                    <span class="click-hint">Ver Motions 👇</span>
+                                    <span>8.211</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-details">
+                            <div class="fd-content" style="border-left-color: var(--accent-green)">
+                                <strong style="color:white">📡 Inteligência de Sinais:</strong> O motor de escuta roda em duas frentes independentes — é essencial separar quem recebe e atua sobre o sinal.<br><br>
+                                <strong style="color:white">💡 Canais de Ativação:</strong>
+                                <ul style="margin-top:6px; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+                                    <li><strong>Alerta Pós-Check-in (AM):</strong> Fim de check-in = AM recebe e-mail automático indicando qual parceiro o cliente precisa e a projeção de comissão <em>("Indique e ganhe até R$ X")</em>.</li>
+                                    <li><strong>Alerta para a Matriz:</strong> Sinais de dor identificados (inclusive durante reuniões que estão acontecendo) chegam aos canais internos da Matriz V4, permitindo que chame o cliente ativamente.</li>
+                                    <li><strong>Transcrições (IA):</strong> Transcrição detecta dores em call para gerar este sinal duplo automaticamente.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="funnel-item">
+                        <div class="funnel-row" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="funnel-label">R.E.D.</div>
+                            <div class="funnel-bar-wrapper">
+                                <div class="funnel-bar bar-cyan" style="--target-width:12%">
+                                    <span class="click-hint">Ver Motions 👇</span>
+                                    <span>∞</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="funnel-details">
+                            <div class="fd-content" style="border-left-color: var(--accent-cyan)">
+                                <strong style="color:white">💡 Canais de Ativação:</strong>
+                                <ul style="margin-top:6px; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+                                    <li><strong>Marketplace Aberto (Tech Touch):</strong> Portais nichados com tráfego orgânico/pago e páginas de aquisição B2B próprias distribuindo leads.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="split-right">
